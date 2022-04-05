@@ -42,7 +42,6 @@ leave_sub:
         Dim sqlCommand As String
         sqlCommand = "INSERT INTO " & status_table & " (time_stamp,order_num,au_num,del_date,pool,thickness,surface,order_date,work_days,downloaded,del_ori,mask_color,large_order) VALUES (" & input & ")"
 
-
         If InStr(sqlCommand, ".T.") Then
             sqlCommand = sqlCommand.Replace(".T.", 1)
         End If
