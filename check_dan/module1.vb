@@ -1,8 +1,6 @@
 ﻿
 Imports System.Data.OleDb
-Imports System.Net.Mail
-Imports System.IO
-Imports System.Data.SqlClient
+
 
 
 Module Module1
@@ -13,7 +11,7 @@ Module Module1
     Sub Main(ByVal feed() As String)
         Dim au_num As String = feed(0)
 
-        'au_num = "'david','david-1.mht','16/03/2018','1','1_00mm_material','3','09/03/2018','6',.T.,'16/03/2018','GREEN','0'"
+        'au_num = "'david','david-1.mht','16/03/2018','1','1_00mm_material','3','09/03/2018','6',.T.,'16/03/2018','GREEN','0','34565','34568'"
 
         Dim stamp As Date
         Dim timeStamp As Long
@@ -32,7 +30,6 @@ Module Module1
         Catch
         End Try
 
-
 leave_sub:
 
     End Sub
@@ -40,7 +37,7 @@ leave_sub:
         REM ********************* DATABASE ********************************************
         Dim status_table As String = "tiff_status"
         Dim sqlCommand As String
-        sqlCommand = "INSERT INTO " & status_table & " (time_stamp,order_num,au_num,del_date,pool,thickness,surface,order_date,work_days,downloaded,del_ori,mask_color,large_order) VALUES (" & input & ")"
+        sqlCommand = "INSERT INTO " & status_table & " (time_stamp,order_num,au_num,del_date,pool,thickness,surface,order_date,work_days,downloaded,del_ori,mask_color,large_order,base_ref_number,ref_number) VALUES (" & input & ")"
 
         If InStr(sqlCommand, ".T.") Then
             sqlCommand = sqlCommand.Replace(".T.", 1)
@@ -50,16 +47,18 @@ leave_sub:
         End If
 
         Dim id As Integer
-        id = Shell("S:\Job\in_house_software\OMS_Dev_SQL_update " & Chr(34) & SqlCommand & Chr(34))
+        id = Shell("S:\Job\in_house_software\OMS_Dev_SQL_update " & Chr(34) & sqlCommand & Chr(34))
+        'id = Shell("D:\Work\Job\in_house_software\OMS_Dev_SQL_update_server " & Chr(34) & sqlCommand & Chr(34))
 
     End Sub
     Sub update(ByVal input As String)
         REM ********************* DATABASE ********************************************
         Dim status_table As String = "t:\database3\tiff_status.dbf"
+        'Dim status_table As String = "D:\Storage\database3\tiff_status.dbf"
         Dim oConnString As String = "Provider=VFPOLEDB.1;Data Source= " + status_table
         Dim oCommandText As String
 
-        oCommandText = "INSERT INTO " & status_table & " (time_stamp,order_num,au_num,del_date,pool,thickness,surface,order_date,work_days,downloaded,del_ori,mask_color,large_order) VALUES (" & input & ")"
+        oCommandText = "INSERT INTO " & status_table & " (time_stamp,order_num,au_num,del_date,pool,thickness,surface,order_date,work_days,downloaded,del_ori,mask_color,large_order,base_ref_number,ref_number) VALUES (" & input & ")"
 
         Dim omyConnection As New OleDbConnection(oConnString)
 
